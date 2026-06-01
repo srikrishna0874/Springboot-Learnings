@@ -1,41 +1,37 @@
 package com.codingshuttle.springweb.controller;
 
 import com.codingshuttle.springweb.dto.EmployeeDTO;
+import com.codingshuttle.springweb.entity.EmployeeEntity;
+import com.codingshuttle.springweb.repository.EmployeeRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/employees")
 public class EmployeeController {
 
-//    @GetMapping(path = "/get-secret-message")
-//    public String getMySuperSecretMessage() {
-//        return "Secret message : sfknksdf232kjkj";
-//    }
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
 
     @GetMapping("/{employeeId}")
-    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id) {
-        return new EmployeeDTO(
-                id,
-                "Krishna",
-                "krishna@gmail.com",
-                23,
-                LocalDate.of(2024, 1, 2),
-                true
-        );
+    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id) {
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @GetMapping()
-    public String getAllEmployees(@RequestParam(required = false, name = "age") Integer age,
-                                  @RequestParam(required = false) String sortBy) {
-        return "Hi age " + age + " " + sortBy;
+    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false, name = "age") Integer age,
+                                                @RequestParam(required = false) String sortBy) {
+        return employeeRepository.findAll();
     }
 
     @PostMapping
-    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        employeeDTO.setId(100L);
-        return employeeDTO;
+    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity employeeEntity) {
+        return employeeRepository.save(employeeEntity);
     }
 
     @PutMapping
