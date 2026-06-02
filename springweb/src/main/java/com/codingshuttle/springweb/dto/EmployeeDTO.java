@@ -43,12 +43,26 @@ public class EmployeeDTO {
     @EmployeeRoleValidation
     private String role;
 
+    @Past(message = "Date of birth of employee cannot be the future date.")
+    private LocalDate dateOfBirth;
+
     @PastOrPresent(message = "Date of joining of employee cannot be the future date.")
     private LocalDate dateOfJoining;
 
+    @NotNull(message = "Experience of the employee shouldn't be empty.")
+    @PositiveOrZero(message = "Experience shouldn't be negative")
+    @DecimalMin(value = "0.0", message = "Experience should be greater than or equal to zero.")
+    private Double experienceInYears;
+
     @JsonProperty("isActive")
     @AssertTrue(message = "Employee should be active.")
+    @NotNull(message = "isActive field of the employee shouldn't be NULL")
     private Boolean isActive;
+
+    @JsonProperty("isRetired")
+    @NotNull(message = "isRetired field of the field shouldn't be NULL")
+    @AssertFalse(message = "Employee shouldn't be retired")
+    private Boolean isRetired;
 
 
 }
