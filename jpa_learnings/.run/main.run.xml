@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="jpa_learnings" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.codingshuttle.jpa_learnings.JpaLearningsApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
