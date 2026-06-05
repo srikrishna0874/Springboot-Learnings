@@ -42,7 +42,7 @@ class JpaLearningsApplicationTests {
 //        List<ProductEntity> productEntityList =
 //                productRepository.findByQuantityGreaterThanAndPriceLessThan(12, 123.45);
 
-        List<ProductEntity> productEntityList = productRepository.findByTitleContainingIgnoreCase("Ne");
+        List<ProductEntity> productEntityList = productRepository.findByTitleContainingIgnoreCase("Ne", null);
 
         System.out.println(productEntityList);
     }

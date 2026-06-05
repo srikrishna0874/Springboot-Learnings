@@ -1,6 +1,9 @@
 package com.codingshuttle.jpa_learnings.repositories;
 
 import com.codingshuttle.jpa_learnings.entities.ProductEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+
+    List<ProductEntity> findBy(Sort sort);
+
     List<ProductEntity> findByTitle(String nestleChocolate);
 
     List<ProductEntity> findByTitleOrderByPrice(String nestleChocolate);
@@ -22,7 +28,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByTitleLike(String title);
 
-    List<ProductEntity> findByTitleContainingIgnoreCase(String title);
+    List<ProductEntity> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
 //    Optional<ProductEntity> findByTitleAndPrice(String title, BigDecimal price);
 
