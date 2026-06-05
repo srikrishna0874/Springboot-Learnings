@@ -12,6 +12,10 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByTitle(String nestleChocolate);
 
+    List<ProductEntity> findByTitleOrderByPrice(String nestleChocolate);
+
+    List<ProductEntity> findByOrderByPrice();
+
     List<ProductEntity> findByCreatedAtAfter(LocalDateTime after);
 
     List<ProductEntity> findByQuantityGreaterThanAndPriceLessThan(int quantity, double price);
