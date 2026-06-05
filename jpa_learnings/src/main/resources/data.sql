@@ -1,3 +1,5 @@
+DELETE FROM test.product_table;
+
 INSERT INTO test.product_table
     (sku, product_title, price, quantity)
 VALUES ('SKU006', 'Gaming Headset', 3499.99, 15),
