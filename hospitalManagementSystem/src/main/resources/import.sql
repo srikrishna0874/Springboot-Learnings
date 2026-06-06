@@ -1,4 +1,4 @@
-delete from patient;
+-- delete from patient;
 
 INSERT INTO patient (name, birth_date, email, gender, blood_group_type)
 VALUES
