@@ -29,8 +29,14 @@ public class PatientServiceTest {
 //            System.out.println(patient);
 //        }
 
-        int rowsAffected = patientRepository.updatePatientNameWithId("Sri Krishna", 91L);
+//        int rowsAffected = patientRepository.updatePatientNameWithId("Sri Krishna", 91L);
+//
+//        System.out.println("rowsAffected = " + rowsAffected);
 
-        System.out.println("rowsAffected = " + rowsAffected);
+        List<Patient> patients = patientRepository.getAllPatientsWithAppointments();
+
+        for (Patient patient : patients) {
+            System.out.println(patient);
+        }
     }
 }

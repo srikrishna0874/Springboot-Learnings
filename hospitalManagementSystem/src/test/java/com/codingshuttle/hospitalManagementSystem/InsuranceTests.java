@@ -2,6 +2,7 @@ package com.codingshuttle.hospitalManagementSystem;
 
 import com.codingshuttle.hospitalManagementSystem.entity.Appointment;
 import com.codingshuttle.hospitalManagementSystem.entity.Insurance;
+import com.codingshuttle.hospitalManagementSystem.entity.Patient;
 import com.codingshuttle.hospitalManagementSystem.repository.AppointmentRepository;
 import com.codingshuttle.hospitalManagementSystem.repository.InsuranceRepository;
 import com.codingshuttle.hospitalManagementSystem.service.AppointmentService;
@@ -31,17 +32,21 @@ public class InsuranceTests {
 
     @Test
     public void testAssignInsuranceToPatient() {
-        Insurance insurance = Insurance.builder()
-                .provider("TATA Ergo")
-                .policyNumber("TATA 232")
-                .validUntil(LocalDate.of(2040, 1, 1))
-                .build();
+//        Insurance insurance = Insurance.builder()
+//                .provider("TATA Ergo")
+//                .policyNumber("TATA 232")
+//                .validUntil(LocalDate.of(2040, 1, 1))
+//                .build();
+//
+//        Insurance updatedInsurance = insuranceService.assignInsuranceToPatient(insurance, 3L);
+//
+//        System.out.println(updatedInsurance);
 
-        Insurance updatedInsurance = insuranceService.assignInsuranceToPatient(insurance, 3L);
+//        patientService.deletePatient(1L);
 
-        System.out.println(updatedInsurance);
+        Patient patient = insuranceService.removeInsuranceToPatient(3L);
 
-        patientService.deletePatient(1L);
+        System.out.println(patient);
 
     }
 
