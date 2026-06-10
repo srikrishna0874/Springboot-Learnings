@@ -5,13 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Table(name = "posts")
@@ -19,27 +13,31 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
-public class PostEntity {
+@Audited
+public class PostEntity extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
+    //    @NotAudited
     private String description;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @PrePersist
+    void beforeSave() {
 
-    @LastModifiedDate
-    private LocalDateTime updatedDate;
+    }
 
-    @CreatedBy
-    private String createdBy;
+    @PreUpdate
+    void beforeUpdate() {
 
-    @LastModifiedBy
-    private String updatedBy;
+    }
+
+    @PreRemove
+    void beforeDelete() {
+
+    }
 
 
 }

@@ -29,4 +29,10 @@ public class PostController {
         return postService.createNewPost(postDTO);
     }
 
+    @PutMapping(path = "/{postId}")
+    public PostDTO updatePost(@PathVariable(name = "postId") Long id, @RequestBody PostDTO postDTO) {
+        return postService.updatePost(id, postDTO);
+    }
+
+
 }
