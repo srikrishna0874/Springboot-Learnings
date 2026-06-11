@@ -1,4 +1,4 @@
-package com.codingshuttle.springweb.advices;
+package com.springboot.prod_ready_features.advice;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
