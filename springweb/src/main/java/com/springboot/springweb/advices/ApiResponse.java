@@ -1,0 +1,32 @@
+package com.codingshuttle.springweb.advices;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class ApiResponse<T> {
+
+//    @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    private LocalDateTime timestamp;
+
+    private T data;
+
+    private ApiError apiError;
+
+
+    public ApiResponse(T data) {
+        this();
+        this.data = data;
+    }
+
+    public ApiResponse() {
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public ApiResponse(ApiError apiError) {
+        this();
+        this.apiError = apiError;
+    }
+}
