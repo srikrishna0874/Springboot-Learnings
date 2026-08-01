@@ -1,5 +1,6 @@
 package com.springboot.security_app.SecurityApplication.dto;
 
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Data
@@ -14,4 +15,7 @@ public class PostDTO {
     private String title;
 
     private String description;
+
+    @ManyToOne
+    private UserDto author;
 }
