@@ -34,6 +34,7 @@ public class SessionService {
         Session newSession = Session.builder()
                 .refreshToken(refreshToken)
                 .user(user)
+                .lastUsedAt(LocalDateTime.now())
                 .build();
 
         sessionRepository.save(newSession);

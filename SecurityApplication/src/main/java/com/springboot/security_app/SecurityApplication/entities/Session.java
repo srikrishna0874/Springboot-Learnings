@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class Session {
 
     private String refreshToken;
 
+    @LastModifiedDate
     private LocalDateTime lastUsedAt;
 
     @ManyToOne
