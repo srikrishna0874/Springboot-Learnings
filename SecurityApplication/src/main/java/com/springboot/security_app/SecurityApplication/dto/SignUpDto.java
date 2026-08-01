@@ -1,5 +1,6 @@
 package com.springboot.security_app.SecurityApplication.dto;
 
+import com.springboot.security_app.SecurityApplication.entities.enums.Permission;
 import com.springboot.security_app.SecurityApplication.entities.enums.Role;
 import lombok.Data;
 
@@ -14,4 +15,6 @@ public class SignUpDto {
     private String name;
 
     private Set<Role> roles;
+
+    private Set<Permission> permissions;
 }

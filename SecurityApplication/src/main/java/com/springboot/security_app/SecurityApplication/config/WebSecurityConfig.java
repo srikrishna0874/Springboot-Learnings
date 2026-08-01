@@ -1,5 +1,6 @@
 package com.springboot.security_app.SecurityApplication.config;
 
+import com.springboot.security_app.SecurityApplication.entities.enums.Permission;
 import com.springboot.security_app.SecurityApplication.filters.JwtAuthFilter;
 import com.springboot.security_app.SecurityApplication.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.springboot.security_app.SecurityApplication.entities.enums.Permission.*;
 import static com.springboot.security_app.SecurityApplication.entities.enums.Role.ADMIN;
 import static com.springboot.security_app.SecurityApplication.entities.enums.Role.CREATOR;
 
@@ -38,8 +40,18 @@ public class WebSecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(publicRoutes).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/posts/**").hasRole(ADMIN.name())
-                        .requestMatchers(HttpMethod.POST, "/posts/**").hasAnyRole(ADMIN.name(), CREATOR.name())
+                        .requestMatchers(HttpMethod.GET, "/posts/**")
+                            .hasRole(ADMIN.name())
+                        .requestMatchers(HttpMethod.POST, "/posts/**")
+                            .hasAnyRole(ADMIN.name(), CREATOR.name())
+                        .requestMatchers(HttpMethod.POST, "/posts/**")
+                            .hasAnyAuthority(POST_CREATE.name())
+                        .requestMatchers(HttpMethod.GET, "/posts/**")
+                            .hasAnyAuthority(POST_VIEW.name())
+                        .requestMatchers(HttpMethod.PUT, "/posts/**")
+                            .hasAuthority(POST_UPDATE.name())
+                        .requestMatchers(HttpMethod.DELETE, "/posts/**")
+                            .hasAuthority(POST_DELETE.name())
                         .anyRequest().authenticated())
                 .csrf((csrfConfig -> csrfConfig.disable()))
                 .sessionManagement(
