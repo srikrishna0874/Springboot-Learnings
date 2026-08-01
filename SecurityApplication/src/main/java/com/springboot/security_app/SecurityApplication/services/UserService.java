@@ -1,6 +1,5 @@
 package com.springboot.security_app.SecurityApplication.services;
 
-import com.springboot.security_app.SecurityApplication.dto.LoginDto;
 import com.springboot.security_app.SecurityApplication.dto.SignUpDto;
 import com.springboot.security_app.SecurityApplication.dto.UserDto;
 import com.springboot.security_app.SecurityApplication.entities.User;
@@ -8,11 +7,7 @@ import com.springboot.security_app.SecurityApplication.exceptions.ResourceNotFou
 import com.springboot.security_app.SecurityApplication.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,16 +34,22 @@ public class UserService implements UserDetailsService {
                 });
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElse(null);
+    }
+
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + userId + " not found"));
+
     }
 
     public UserDto signUp(SignUpDto signUpDto) {
         Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
 
         if (user.isPresent()) {
-            throw new BadCredentialsException("User with username " + signUpDto.getEmail() + " not found");
+            throw new BadCredentialsException("User with username " + signUpDto.getEmail() + " already found");
         }
 
         User toBeCreatedUser = modelMapper.map(signUpDto, User.class);
@@ -62,4 +63,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }

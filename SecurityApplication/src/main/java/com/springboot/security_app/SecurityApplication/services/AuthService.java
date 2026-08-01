@@ -1,6 +1,7 @@
 package com.springboot.security_app.SecurityApplication.services;
 
 import com.springboot.security_app.SecurityApplication.dto.LoginDto;
+import com.springboot.security_app.SecurityApplication.dto.LoginResponseDto;
 import com.springboot.security_app.SecurityApplication.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,13 +18,33 @@ public class AuthService {
 
     private final JwtService jwtService;
 
-    public String login(LoginDto loginDto) {
+    private final UserService userService;
+
+    private final SessionService sessionService;
+
+    public LoginResponseDto login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
         );
 
         User user = (User) authentication.getPrincipal();
 
-        return jwtService.generateToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        sessionService.generateNewSession(user, refreshToken);
+
+        return new LoginResponseDto(user.getId(), accessToken, refreshToken);
+    }
+
+    public LoginResponseDto refreshToken(String refreshToken) {
+        Long userId = jwtService.getUserIdFromToken(refreshToken);
+        sessionService.validateSession(refreshToken);
+
+        User user = userService.getUserById(userId);
+
+        String accessToken = jwtService.generateAccessToken(user);
+
+        return new LoginResponseDto(user.getId(), accessToken, refreshToken);
     }
 }
