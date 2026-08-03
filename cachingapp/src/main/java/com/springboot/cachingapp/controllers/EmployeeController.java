@@ -1,7 +1,9 @@
 package com.springboot.cachingapp.controllers;
 
 import com.springboot.cachingapp.dtos.EmployeeDto;
+import com.springboot.cachingapp.entities.SalaryAccount;
 import com.springboot.cachingapp.services.EmployeeService;
+import com.springboot.cachingapp.services.SalaryAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
+    private final SalaryAccountService salaryAccountService;
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id) {
@@ -40,6 +44,13 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/incrementBalance/{accountId}")
+    public ResponseEntity<SalaryAccount> incrementBalance(@PathVariable Long accountId) {
+        SalaryAccount incrementedSalaryAccount = salaryAccountService.incrementBalance(accountId);
+
+        return ResponseEntity.ok(incrementedSalaryAccount);
     }
 
 }

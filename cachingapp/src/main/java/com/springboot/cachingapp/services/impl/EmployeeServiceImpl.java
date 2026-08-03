@@ -5,6 +5,8 @@ import com.springboot.cachingapp.entities.Employee;
 import com.springboot.cachingapp.exceptions.ResourceNotFoundException;
 import com.springboot.cachingapp.repositories.EmployeeRepository;
 import com.springboot.cachingapp.services.EmployeeService;
+import com.springboot.cachingapp.services.SalaryAccountService;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,6 +28,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final String CACHE_NAME = "employees";
 
+    private final SalaryAccountService salaryAccountService;
+
     @Override
     @Cacheable(cacheNames = CACHE_NAME, key = "#id")
     public EmployeeDto getEmployeeById(Long id) {
@@ -44,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
+    @Transactional
     public EmployeeDto createNewEmployee(EmployeeDto employeeDto) {
 
         log.info("Creating new employee with email: {}", employeeDto.getEmail());
@@ -62,6 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee =
                 employeeRepository.save(newEmployee);
+
+        salaryAccountService.createSalaryAccount(savedEmployee);
 
         log.info("Successfully created new employee with id: {}",
                 savedEmployee.getId());
