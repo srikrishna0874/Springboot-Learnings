@@ -1,6 +1,7 @@
 package com.springboot.cachingapp.advices;
 
 import com.springboot.cachingapp.exceptions.ResourceNotFoundException;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,9 +16,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRunTimeException(RuntimeException ex) {
+    @ExceptionHandler(StaleObjectStateException.class)
+    public ResponseEntity<String> handleStaleObjectStateException(StaleObjectStateException ex) {
 
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

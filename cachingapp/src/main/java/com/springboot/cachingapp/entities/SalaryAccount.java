@@ -21,6 +21,9 @@ public class SalaryAccount {
 
     private BigDecimal balance;
 
+    @Version
+    private Long version; // Optimistic Lock
+
     @OneToOne
     @JsonIgnore
     private Employee employee;
