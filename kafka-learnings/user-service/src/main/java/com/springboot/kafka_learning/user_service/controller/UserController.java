@@ -1,14 +1,13 @@
 package com.springboot.kafka_learning.user_service.controller;
 
+import com.springboot.kafka_learning.user_service.dto.CreateUserRequestDto;
+import com.springboot.kafka_learning.user_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -20,6 +19,15 @@ public class UserController {
 
     @Value("${kafka.topic.user-random-topic}")
     private String KAFKA_TOPIC_USER_RANDOM;
+
+    private final UserService userService;
+
+    @PostMapping
+    public ResponseEntity<String> createUser(@RequestBody CreateUserRequestDto createUserRequestDto) {
+        userService.createNewUser(createUserRequestDto);
+
+        return ResponseEntity.ok("User is created successfully");
+    }
 
     @PostMapping(path = "/{message}")
     public ResponseEntity<String> sendMessage(@PathVariable String message) {
