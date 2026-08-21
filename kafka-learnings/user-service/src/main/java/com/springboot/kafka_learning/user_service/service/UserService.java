@@ -2,7 +2,7 @@ package com.springboot.kafka_learning.user_service.service;
 
 import com.springboot.kafka_learning.user_service.dto.CreateUserRequestDto;
 import com.springboot.kafka_learning.user_service.entity.User;
-import com.springboot.kafka_learning.user_service.event.UserCreatedEvent;
+import com.springboot.kafka_learning.event.UserCreatedEvent;
 import com.springboot.kafka_learning.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
